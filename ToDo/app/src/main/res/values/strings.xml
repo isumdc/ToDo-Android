@@ -3,4 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="newTaskDialog_title">New Task</string>
+    <string name="newTaskDialog_positiveButton">Create</string>
+    <string name="newTaskDialog_negativeButton">Cancel</string>
+    <string name="newTaskDialog_titleHint">Title</string>
 </resources>
