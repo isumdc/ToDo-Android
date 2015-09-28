@@ -8,4 +8,6 @@
     <string name="newTaskDialog_positiveButton">Create</string>
     <string name="newTaskDialog_negativeButton">Cancel</string>
     <string name="newTaskDialog_titleHint">Title</string>
+
+    <string name="removeTaskButton_text">Remove Task</string>
 </resources>

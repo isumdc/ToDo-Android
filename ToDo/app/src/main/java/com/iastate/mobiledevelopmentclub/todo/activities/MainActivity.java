@@ -8,9 +8,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.iastate.mobiledevelopmentclub.todo.R;
+import com.iastate.mobiledevelopmentclub.todo.adapters.TaskArrayAdapter;
 import com.iastate.mobiledevelopmentclub.todo.models.Task;
 
 import java.util.ArrayList;
@@ -26,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tasks = new ArrayList<>();
+
+        ListView listView = (ListView) findViewById(R.id.listview_tasks);
+        ArrayAdapter listAdapter = new TaskArrayAdapter(this, R.layout.item_task, tasks);
+
+        listView.setAdapter(listAdapter);
     }
 
     private void addTask() {
