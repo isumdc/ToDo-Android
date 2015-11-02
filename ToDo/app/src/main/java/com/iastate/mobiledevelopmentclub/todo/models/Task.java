@@ -1,9 +1,13 @@
 package com.iastate.mobiledevelopmentclub.todo.models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 /**
  * Created by etbrady on 9/28/15.
  */
-public class Task {
+@ParseClassName("Task")
+public class Task extends ParseObject {
 
     private String title;
     private boolean isDone;

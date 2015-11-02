@@ -10,4 +10,20 @@
     <string name="newTaskDialog_titleHint">Title</string>
 
     <string name="removeTaskButton_text">Remove Task</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <!-- Login Strings -->
+    <string name="login_email_prompt">Email Address</string>
+    <string name="login_password_prompt">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_sign_up_button">Sign Up</string>
+
+    <!-- Sign Up Strings -->
+    <string name="sign_up_email_prompt">Email Address</string>
+    <string name="sign_up_password_prompt">Password</string>
+    <string name="sign_up_first_name">First Name</string>
+    <string name="sign_up_last_name">Last Name</string>
+    <string name="sign_up_phone_number">Phone Number</string>
+    <string name="sign_up_button">Sign Up</string>
+    <string name="sign_up_phone">Phone Number</string>
 </resources>
