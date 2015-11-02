@@ -12,8 +12,7 @@ public class Task extends ParseObject {
     private String title;
     private boolean isDone;
 
-    public Task(String title) {
-        this.title = title;
+    public Task() {
         this.isDone = false;
     }
 
@@ -23,6 +22,10 @@ public class Task extends ParseObject {
 
     public String getTitle() {
         return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public boolean isDone() {

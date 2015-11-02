@@ -2,6 +2,7 @@ package com.iastate.mobiledevelopmentclub.todo.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,25 +17,43 @@ import android.widget.ListView;
 import com.iastate.mobiledevelopmentclub.todo.R;
 import com.iastate.mobiledevelopmentclub.todo.adapters.TaskArrayAdapter;
 import com.iastate.mobiledevelopmentclub.todo.models.Task;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<Task> tasks;
+    protected List<Task> tasks;
+    private ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        currentUser = ParseUser.getCurrentUser();
         tasks = new ArrayList<>();
 
         ListView listView = (ListView) findViewById(R.id.listview_tasks);
         ArrayAdapter listAdapter = new TaskArrayAdapter(this, R.layout.item_task, tasks);
 
         listView.setAdapter(listAdapter);
+    }
+
+    private void retrieveTasks() {
+        ParseQuery<Task> taskParseQuery = new ParseQuery<>(Task.class);
+        taskParseQuery.whereEqualTo("createdBy", currentUser);
+        taskParseQuery.findInBackground(new FindCallback<Task>() {
+            @Override
+            public void done(List<Task> list, ParseException e) {
+                //this.tasks = list;
+            }
+        });
+
     }
 
     private void addTask() {
@@ -52,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 EditText editTextTitle = (EditText) alertDialogView.findViewById(R.id.edittext_title);
                 String title = editTextTitle.getText().toString();
-                Task task = new Task(title);
+                Task task = new Task();
+                task.setTitle(title);
                 tasks.add(task);
             }
         });
@@ -82,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_addTask:
                 addTask();
                 return true;
+            case R.id.action_logout:
+                ParseUser.logOut();
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             default:
                 return false;
         }
