@@ -2,6 +2,7 @@ package com.iastate.mobiledevelopmentclub.todo.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 /**
  * Created by etbrady on 9/28/15.
@@ -9,26 +10,29 @@ import com.parse.ParseObject;
 @ParseClassName("Task")
 public class Task extends ParseObject {
 
-    private String title;
-    private boolean isDone;
+    public Task() { }
 
-    public Task() {
-        this.isDone = false;
+    public void setCreatedBy(ParseUser user) {
+        put("createdBy", user);
     }
 
-    public void setDone(){
-        this.isDone = true;
+    public ParseUser getCreatedBy() {
+        return getParseUser("createdBy");
+    }
+
+    public void setDone(boolean isDone){
+        put("isDone", isDone);
     }
 
     public String getTitle() {
-        return this.title;
+        return getString("title");
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        put("title", title);
     }
 
     public boolean isDone() {
-        return this.isDone;
+        return getBoolean("isDone");
     }
 }

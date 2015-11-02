@@ -21,6 +21,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected List<Task> tasks;
     private ParseUser currentUser;
+    private ArrayAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         currentUser = ParseUser.getCurrentUser();
-        tasks = new ArrayList<>();
-
-        ListView listView = (ListView) findViewById(R.id.listview_tasks);
-        ArrayAdapter listAdapter = new TaskArrayAdapter(this, R.layout.item_task, tasks);
-
-        listView.setAdapter(listAdapter);
+        retrieveTasks();
     }
 
     private void retrieveTasks() {
@@ -50,10 +47,20 @@ public class MainActivity extends AppCompatActivity {
         taskParseQuery.findInBackground(new FindCallback<Task>() {
             @Override
             public void done(List<Task> list, ParseException e) {
-                //this.tasks = list;
+                if (list == null) {
+                    list = new ArrayList<Task>();
+                }
+                populateTasksList(list);
             }
         });
+    }
 
+    private void populateTasksList(List<Task> tasks) {
+        this.tasks = tasks;
+        ListView listView = (ListView) findViewById(R.id.listview_tasks);
+        listAdapter = new TaskArrayAdapter(this, R.layout.item_task, tasks);
+
+        listView.setAdapter(listAdapter);
     }
 
     private void addTask() {
@@ -71,9 +78,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 EditText editTextTitle = (EditText) alertDialogView.findViewById(R.id.edittext_title);
                 String title = editTextTitle.getText().toString();
-                Task task = new Task();
+                final Task task = new Task();
                 task.setTitle(title);
-                tasks.add(task);
+                task.setDone(false);
+                task.setCreatedBy(currentUser);
+                task.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        tasks.add(task);
+                        listAdapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
 

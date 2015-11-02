@@ -37,6 +37,7 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
             @Override
             public void onClick(View v) {
                 remove(task);
+                task.deleteInBackground();
                 notifyDataSetChanged();
             }
         });
