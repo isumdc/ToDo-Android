@@ -9,31 +9,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iastate.mobiledevelopmentclub.todo.R;
-import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
-public class LoginActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign_up);
 
-        Button loginButton = (Button) findViewById(R.id.button_login);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
-
-        TextView signUpTextView = (TextView) findViewById(R.id.textview_signup);
-        signUpTextView.setOnClickListener(new View.OnClickListener() {
+        Button signUpButton = (Button) findViewById(R.id.button_signUp);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signUp();
@@ -41,40 +32,53 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void login() {
+    private void signUp() {
+        EditText firstNameEditText = (EditText) findViewById(R.id.edittext_firstName);
+        String firstName = firstNameEditText.getText().toString();
+
+        EditText lastNameEditText = (EditText) findViewById(R.id.edittext_lastName);
+        String lastName = lastNameEditText.getText().toString();
+
+        String name = firstName + " " + lastName;
+
+        EditText phoneEditText = (EditText) findViewById(R.id.edittext_phone);
+        String phone = phoneEditText.getText().toString();
+
         EditText emailEdiText = (EditText) findViewById(R.id.edittext_email);
         String email = emailEdiText.getText().toString();
 
         EditText passwordEditText = (EditText) findViewById(R.id.edittext_password);
         String password = passwordEditText.getText().toString();
 
-        ParseUser.logInInBackground(email, password, new LogInCallback() {
+        ParseUser user = new ParseUser();
+        user.setUsername(email);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.put("name", name);
+        user.put("phone", phone);
+
+        user.signUpInBackground(new SignUpCallback() {
             @Override
-            public void done(ParseUser parseUser, ParseException e) {
-                Context context = LoginActivity.this;
-                if (e != null) {
-                    String errorPrompt = getString(R.string.error_login);
-                    String errorMessage = errorPrompt + " " + e.getMessage();
-                    Toast toast = Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
+            public void done(ParseException e) {
+                Context context = SignUpActivity.this;
+                if(e == null) {
                     Intent intent = new Intent(context, MainActivity.class);
                     startActivity(intent);
                     finish();
+                } else {
+                    String errorPrompt = getString(R.string.error_signup);
+                    String errorMessage = errorPrompt + " " + e.getMessage();
+                    Toast toast = Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT);
+                    toast.show();
                 }
             }
         });
     }
 
-    private void signUp() {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
+        getMenuInflater().inflate(R.menu.menu_sign_up, menu);
         return true;
     }
 
@@ -92,5 +96,4 @@ public class LoginActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

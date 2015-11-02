@@ -15,6 +15,6 @@ public class ToDoApplication extends Application {
 
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "cbKPyD03OaVEVxx4kmkJT74BCPMGKM5xi5I1xgoX", "vqAELdoabdUSA8OJENbB6Vw7EyvxPjXxm811aiU1");
+        Parse.initialize(this, "6i56ezsQtXbfzsSHaiKToW7shmQwnFUFAq17Pf45", "szqzOirSc2tqB6pCuTcTDXd4DLHGFGo4Kvt7Uz2p");
     }
 }

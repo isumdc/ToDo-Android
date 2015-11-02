@@ -26,4 +26,10 @@
     <string name="sign_up_phone_number">Phone Number</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="sign_up_phone">Phone Number</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+
+    <!-- Errors -->
+    <string name="error_login">Error logging in: </string>
+    <string name="error_signup">Error signing up: </string>
+
 </resources>
